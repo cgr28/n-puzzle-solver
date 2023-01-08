@@ -114,7 +114,105 @@ public class Solvers {
         public int euclideanDistance(int row1, int col1, int row2, int col2) {
             return (int) Math.sqrt(Math.pow((row1-row2), 2) + Math.pow((col1-col2), 2));
         }
-       
+
+        public void createPatternDatabaseFifteenPuzzle() {
+            HashMap<String, Integer> pdb = new HashMap<String, Integer>();
+            int[][] BOARD = {{1, 2, 3, 4}, {-1, -1, 7, -1}, {-1, -1, -1, -1}, {-1, -1, -1, 0}};
+            // int[][] BOARD = {{-1, -1, -1, -1}, {-1, -1, -1, 8}, {-1, -1, 11, 12}, {-1, 14, 15, 0}};
+            // int[][] BOARD = {{-1, -1, -1, -1}, {5, 6, -1, -1}, {9, 10, -1, -1}, {13, -1, -1, 0}};
+            pdbState state = new pdbState(0, new Puzzle(BOARD));
+            Queue<pdbState> queue = new LinkedList<>();
+            queue.add(state);
+            while (queue.size() > 0) {
+                state = queue.poll();
+                String hash = state.puzzle.flatten();
+                if (pdb.containsKey(hash)) {
+                    continue;
+                }
+                pdb.put(hash, state.g);
+                for (Move move: new Move[] {Move.DOWN, Move.LEFT, Move.RIGHT, Move.UP}) {
+                    pdbState temp = new pdbState(state.g+1, new Puzzle(deepCopy(state.puzzle.getBoard())));
+                    temp.puzzle.moveTile(move);
+                    queue.add(temp);
+                }
+            }
+    
+            try {
+                System.out.println("Writing to file...");
+                File fileOne=new File("15-puzzle-pdb-1");
+                FileOutputStream fos=new FileOutputStream(fileOne);
+                ObjectOutputStream oos=new ObjectOutputStream(fos);
+        
+                oos.writeObject(pdb);
+                oos.flush();
+                oos.close();
+                fos.close();
+            } catch(Exception e) {System.out.println(e);}
+            
+            BOARD = new int[][] {{-1, -1, -1, -1}, {-1, -1, -1, 8}, {-1, -1, 11, 12}, {-1, 14, 15, 0}};
+            state = new pdbState(0, new Puzzle(BOARD));
+            queue = new LinkedList<>();
+            queue.add(state);
+            pdb.clear();
+            while (queue.size() > 0) {
+                state = queue.poll();
+                String hash = state.puzzle.flatten();
+                if (pdb.containsKey(hash)) {
+                    continue;
+                }
+                pdb.put(hash, state.g);
+                for (Move move: new Move[] {Move.DOWN, Move.LEFT, Move.RIGHT, Move.UP}) {
+                    pdbState temp = new pdbState(state.g+1, new Puzzle(deepCopy(state.puzzle.getBoard())));
+                    temp.puzzle.moveTile(move);
+                    queue.add(temp);
+                }
+            }
+    
+            try {
+                System.out.println("Writing to file...");
+                File fileOne=new File("15-puzzle-pdb-2");
+                FileOutputStream fos=new FileOutputStream(fileOne);
+                ObjectOutputStream oos=new ObjectOutputStream(fos);
+        
+                oos.writeObject(pdb);
+                oos.flush();
+                oos.close();
+                fos.close();
+            } catch(Exception e) {System.out.println(e);}
+
+            BOARD = new int[][] {{-1, -1, -1, -1}, {5, 6, -1, -1}, {9, 10, -1, -1}, {13, -1, -1, 0}};
+            state = new pdbState(0, new Puzzle(BOARD));
+            queue = new LinkedList<>();
+            queue.add(state);
+            pdb.clear();
+            while (queue.size() > 0) {
+                state = queue.poll();
+                String hash = state.puzzle.flatten();
+                if (pdb.containsKey(hash)) {
+                    continue;
+                }
+                pdb.put(hash, state.g);
+                for (Move move: new Move[] {Move.DOWN, Move.LEFT, Move.RIGHT, Move.UP}) {
+                    pdbState temp = new pdbState(state.g+1, new Puzzle(deepCopy(state.puzzle.getBoard())));
+                    temp.puzzle.moveTile(move);
+                    queue.add(temp);
+                }
+            }
+    
+            try {
+                System.out.println("Writing to file...");
+                File fileOne=new File("15-puzzle-pdb-3");
+                FileOutputStream fos=new FileOutputStream(fileOne);
+                ObjectOutputStream oos=new ObjectOutputStream(fos);
+        
+                oos.writeObject(pdb);
+                oos.flush();
+                oos.close();
+                fos.close();
+            } catch(Exception e) {System.out.println(e);}
+
+        }
+
         public void createPatternDatabaseEightPuzzle() {
             System.out.println("Beginning creation of 8 puzzle pdb...");
             HashMap<String, Integer> pdb = new HashMap<String, Integer>();
@@ -170,6 +268,11 @@ public class Solvers {
         public int pdbHeuristic(Puzzle puzzle) {
             return pdb.get(puzzle.flatten());
         }
+    }
+
+    public void createPDBEight() {
+        Heuristics searchHeuristic = new Heuristics();
+        searchHeuristic.createPatternDatabaseFifteenPuzzle();
     }
 
 
@@ -241,8 +344,8 @@ public class Solvers {
         return GOAL_MAP;
     }
 
-    public ArrayList<State>  potentialStates(State state) {
-        ArrayList<State> states = new ArrayList<State>();
+    public PriorityQueue<State>  potentialStates(State state) {
+        PriorityQueue<State> states = new PriorityQueue<State>();
         Puzzle tempPuzzle;
         State tempState;
         State parent = state;
@@ -294,6 +397,7 @@ public class Solvers {
 
     public void aStar() {
         PriorityQueue<State> open = new PriorityQueue<State>();
+        PriorityQueue<State> potentialStates;
         Set<String> closed = new HashSet<String>();
         Heuristics searchHeuristic = new Heuristics();
         String hash = puzzle.flatten();
@@ -317,7 +421,10 @@ public class Solvers {
 
             closed.add(state.getPuzzle().flatten());
 
-            for (State newState: potentialStates(state)) {
+
+            potentialStates = potentialStates(state);
+            while (potentialStates.size() > 0) {
+                State newState = potentialStates.poll();
                 hash = newState.getPuzzle().flatten();
 
                 if (closed.contains(hash)) {
@@ -395,4 +502,26 @@ public class Solvers {
         }
 
     }
+
+    public static void main(String[] args) {
+        int[][] RALPH_GASSER_BOARD = {{15, 14, 8, 12},
+                                      {10, 11, 9, 13},
+                                      {2, 6, 5, 1},
+                                      {3, 7, 4, 0}
+                                    };
+
+        // int[][] GOAL  = {{1, 2, 3, 4},
+        //                 {5, 6, 7, 8} ,
+        //                 {9, 10, 11, 12},
+        //                 {13, 14, 15, 0}};
+        
+        int[][] RALPH_GASSER_GOAL  = {{0, 1, 2, 3},
+                                      {4, 5, 6, 7} ,
+                                      {8, 9, 10, 11},
+                                      {12, 13, 14, 15}
+                                    };
+        Solvers solver = new Solvers(RALPH_GASSER_GOAL, RALPH_GASSER_BOARD, Heuristic.MANHATTAN_DISTANCE);
+        solver.createPDBEight();
+    }
+
 }
