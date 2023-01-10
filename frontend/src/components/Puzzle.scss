@@ -1,0 +1,24 @@
+.table {
+
+    border: 2px solid black;
+    background-color: lightgray;
+
+    .col {
+        height: 35px;
+        width: 35px;
+        text-align: center;
+        font-weight: bold;
+        border: .5px dashed black;
+        display: flex;
+        align-items:center;
+        justify-content:center;
+        background-color: white;
+
+    }
+
+    #zero {
+        border: none;
+        background-color: lightgray;
+    }
+
+}
