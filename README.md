@@ -1,7 +1,7 @@
 # N-Puzzle Solver
 A web app that allows you to get the solution to an n-puzzle using various search algorithms and heuristics.
 
-![Walk-through](https://raw.githubusercontent.com/cgr28/n-puzzle-java/main/imgs/walkthrough.gif)
+![Walk-through](https://github.com/cgr28/n-puzzle-java/blob/main/imgs/walkthrough.gif?raw=true)
 <br />
 
 ## Install and Run App
