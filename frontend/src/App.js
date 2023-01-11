@@ -14,6 +14,32 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
+      <div className="grid justify-items-center header content-start footer">
+        <div>
+            Made by:{" "}
+            <a
+                href="https://www.colbe.me"
+                target="__blank"
+                id="name-link"
+                rel="noreferrer"
+                className='link text'
+                >
+                Colbe Roberson
+            </a>
+        </div>
+        <div>
+
+            <a
+                href="https://github.com/cgr28/n-puzzle-java"
+                target="_blank"
+                id="github-link"
+                rel="noreferrer"
+                className='link text'
+                >
+                GitHub
+            </a>
+          </div>
+        </div>
     </Router>
   );
 }

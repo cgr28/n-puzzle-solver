@@ -1,0 +1,15 @@
+services: 
+  service1:
+    build:
+      context: .
+      dockerfile: ./npuzzle-solver/Dockerfile
+    ports:
+      - "4567:4567"
+    image: npuzzle-solver-backend
+  service2:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    image: npuzzle-solver-frontend

@@ -10,16 +10,13 @@ import me.colbe.npuzzle.solver.Solvers.Heuristic;
 import me.colbe.npuzzle.solver.State;
 
 import spark.Filter;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+
 public class App 
 {
 
     public static int[][] stringToPuzzle(String puzzleString, int n) {
         int index = 0;
         int[][] out = new int[n][n];
-        int num = 0;
         String temp = "";
 
         for (int i = 0; i < n; i++) {
@@ -92,19 +89,12 @@ public class App
             } else {
                 stack = solver.idaStar();
             }
-            // solver.printSteps(stack);
             String solution = solutionToJson(stack);
-            System.out.println(solution);
             return solution;
 
         });
         get("/hello", (request, response) -> {
             return "Hello";
         });
-        
-        // exception(RouteException.class, (e, request, response) -> {
-        //     response.status(404);
-        //     response.body("Resource not found");
-        // });
     }
 }

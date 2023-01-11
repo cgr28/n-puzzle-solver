@@ -15,6 +15,9 @@ export default function Home() {
         event.preventDefault();
         let goal = getGoalPuzzle();
         let initial = getInitialPuzzle();
+        if (heuristic === "pdb") {
+            goal = "1-2-3-4-5-6-7-8-0-"
+        }
         setLoading(1)
         fetch(`http://localhost:4567/api/solve/${initial}/${goal}/${heuristic}/${n}/${solver}`)
             .then((res) => res.json())
@@ -117,7 +120,7 @@ export default function Home() {
                                 </select>
                             </div>
                             <div className="header mt-2" >Goal Puzzle</div>
-                            <InputPuzzle n={n} className="goal" />
+                            {heuristic == "pdb" ? <Puzzle puzzle={[[1, 2, 3], [4, 5, 6], [7, 8, 0]]} /> : <InputPuzzle n={n} className="goal" />}
                             <input disabled={loading} value={"Solve"} type="submit" className="btn mt-4 px-1" />
                         </form>
                     </div>
@@ -125,8 +128,8 @@ export default function Home() {
                 <div className="basis-1/2 grid justify-items-center content-start">
                     <div className="header">Instructions</div>
                     <ol type="1" className="list-decimal">
-                        <li className="text mt-2">Enter an initial puzzle numbered 1, 2, 3...n, use a 0 to represent the empty space.</li>
                         <li className="text mt-2">Select either an 8, 15, or 24 puzzle.</li>
+                        <li className="text mt-2">Enter an initial puzzle numbered 1, 2, 3...n, use a 0 to represent the empty space.</li>
                         <li className="text mt-2">Select a heuristic to use.</li>
                         <ol type="a" className="ml-6 list-[lower-alpha]">
                             <li className="text mt-2 ml-2"><a href="https://en.wikipedia.org/wiki/Taxicab_geometry" className="link">Manhattan Distance</a>: Uses the distance from the cell's current position to the goal position measured along axes at right angles.</li>
