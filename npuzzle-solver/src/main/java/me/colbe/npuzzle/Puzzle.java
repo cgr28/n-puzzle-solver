@@ -1,6 +1,6 @@
 package me.colbe.npuzzle;
-import java.util.*;
 
+import java.util.*;
 
 public class Puzzle {
 
@@ -48,12 +48,12 @@ public class Puzzle {
     }
 
     private boolean canMove(int row, int col) {
-        if (row < 0 || row > this.board.length-1) {
+        if (row < 0 || row > this.board.length - 1) {
             // System.out.println("row");
             return false;
         }
 
-        if (col < 0 || col > this.board[0].length-1) {
+        if (col < 0 || col > this.board[0].length - 1) {
             // System.out.println("this.board[0].length: " + (this.board[0].length-1));
             // System.out.println("col: " + col);
             return false;
@@ -161,7 +161,7 @@ public class Puzzle {
                 puzzleRep += "\n";
             }
             for (int j = 0; j < this.board[i].length; j++) {
-                puzzleRep += (this.board[i][j] + "\t"); 
+                puzzleRep += (this.board[i][j] + "\t");
             }
         }
 
@@ -187,5 +187,5 @@ public class Puzzle {
     public int getWidth() {
         return this.board[0].length;
     }
-    
+
 }

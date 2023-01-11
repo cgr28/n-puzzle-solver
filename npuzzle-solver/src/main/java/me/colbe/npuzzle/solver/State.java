@@ -1,5 +1,6 @@
 
 package me.colbe.npuzzle.solver;
+
 import me.colbe.npuzzle.Puzzle;
 import me.colbe.npuzzle.Puzzle.Move;
 
@@ -52,9 +53,8 @@ public class State implements Comparable<State> {
     }
 
     @Override
-    public int compareTo(State state) 
-    {
-        return this.getF().compareTo( state.getF() );
+    public int compareTo(State state) {
+        return this.getF().compareTo(state.getF());
     }
-    
+
 }

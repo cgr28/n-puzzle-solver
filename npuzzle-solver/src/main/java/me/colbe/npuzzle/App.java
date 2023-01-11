@@ -11,8 +11,7 @@ import me.colbe.npuzzle.solver.State;
 
 import spark.Filter;
 
-public class App 
-{
+public class App {
 
     public static int[][] stringToPuzzle(String puzzleString, int n) {
         int index = 0;
@@ -25,7 +24,7 @@ public class App
                 while (puzzleString.charAt(index) != '-') {
                     temp += puzzleString.charAt(index++);
                 }
-                out[i][j] = Integer.parseInt(temp+"");
+                out[i][j] = Integer.parseInt(temp + "");
                 index++;
             }
         }
@@ -37,12 +36,13 @@ public class App
 
         while (stack.size() > 0) {
             State state = stack.pop();
-            String section = "{\"puzzle\": " + arrToString(state.getPuzzle().getBoard()) + ", \"move\": " + "\"" + state.getMove() + "\"},";
+            String section = "{\"puzzle\": " + arrToString(state.getPuzzle().getBoard()) + ", \"move\": " + "\""
+                    + state.getMove() + "\"},";
             out += section;
         }
-        out = out.substring(0, out.length()-1);
+        out = out.substring(0, out.length() - 1);
         out += "]";
-        
+
         return out;
     }
 
@@ -51,7 +51,7 @@ public class App
         for (int i = 0; i < arr.length; i++) {
             out += Arrays.toString(arr[i]) + ",";
         }
-        out = out.substring(0, out.length()-1);
+        out = out.substring(0, out.length() - 1);
         out += "]";
         return out;
     }
@@ -81,7 +81,7 @@ public class App
 
             Solvers solver = new Solvers(GOAL, INITIAL, heuristic);
             Stack<State> stack;
-            
+
             if (solverParam == "bfs") {
                 stack = solver.bestFirstSearch();
             } else if (solverParam == "astar") {
